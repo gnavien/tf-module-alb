@@ -35,6 +35,22 @@ resource "aws_lb" "main" {
     Name = "${var.name}-${var.env}"  },    var.tags)
 }
 
+##### 3 #####
 
+resource "aws_lb_listener" "main" {
+  load_balancer_arn = aws_lb.main.arn
+  port              = var.port #"443"
+  protocol          = "HTTP"
+
+  default_action {
+    type = "fixed-response"
+
+    fixed_response {
+      content_type = "text/plain"
+      message_body = "Default error"
+      status_code  = "500"
+    }
+  }
+}
 
 
