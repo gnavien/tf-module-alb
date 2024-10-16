@@ -40,7 +40,9 @@ resource "aws_lb" "main" {
 resource "aws_lb_listener" "main" {
   load_balancer_arn = aws_lb.main.arn
   port              = var.port #"443"
-  protocol          = "HTTP"
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = "arn:aws:acm:us-east-1:968585591903:certificate/5532a382-c482-4c66-9f6a-d6a7c5395b38"
 
   default_action {
     type = "fixed-response"
@@ -48,6 +50,40 @@ resource "aws_lb_listener" "main" {
     fixed_response {
       content_type = "text/plain"
       message_body = "Default error"
+      status_code  = "500"
+    }
+  }
+}
+
+resource "aws_lb_listener" "public" {
+  count             = var.name == "public" ? 1 : 0
+  load_balancer_arn = aws_lb.main.arn
+  port              = "80"
+  protocol          = "HTTP"
+
+  default_action {
+    type = "redirect"
+
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+    }
+  }
+}
+
+resource "aws_lb_listener" "private" {
+  count             = var.name == "private" ? 1 : 0
+  load_balancer_arn = aws_lb.main.arn
+  port              = "80"
+  protocol          = "HTTP"
+
+  default_action {
+    type = "fixed-response"
+
+    fixed_response {
+      content_type = "text/plain"
+      message_body = "Default Error"
       status_code  = "500"
     }
   }
