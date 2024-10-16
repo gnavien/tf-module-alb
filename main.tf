@@ -10,7 +10,12 @@ resource "aws_security_group" "main" {
     protocol    = "tcp"
     cidr_blocks = var.sg_subnet_cidr # We are allowing app subnet to this instance to access
   }
-
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = var.sg_subnet_cidr
+  }
   egress {
     from_port   = 0
     to_port     = 0
