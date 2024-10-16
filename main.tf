@@ -19,7 +19,7 @@ resource "aws_security_group" "main" {
   }
 
   tags = merge({
-    Name = "${var.name}-${var.env}"  },    var.tags)
+    Name = "${var.name}-${var.env}-alb"  },    var.tags)
 }
 
 # This is the basic start for the load balancer
@@ -32,7 +32,7 @@ resource "aws_lb" "main" {
   subnets            = var.subnets
 
   tags = merge({
-    Name = "${var.name}-${var.env}"  },    var.tags)
+    Name = "${var.name}-${var.env}-alb"  },    var.tags)
 }
 
 ##### 3 #####
