@@ -5,8 +5,8 @@ resource "aws_security_group" "main" {
   vpc_id = var.vpc_id
 
   ingress {
-    from_port   = var.port
-    to_port     = var.port
+    from_port   = 80
+    to_port     = 80
     protocol    = "tcp"
     cidr_blocks = var.sg_subnet_cidr # We are allowing app subnet to this instance to access
   }
@@ -44,7 +44,7 @@ resource "aws_lb" "main" {
 
 resource "aws_lb_listener" "main" {
   load_balancer_arn = aws_lb.main.arn
-  port              = var.port #"443"
+  port              = "443"
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
   certificate_arn   = "arn:aws:acm:us-east-1:968585591903:certificate/5532a382-c482-4c66-9f6a-d6a7c5395b38"
