@@ -42,23 +42,23 @@ resource "aws_lb" "main" {
 
 ##### 3 #####
 
-#resource "aws_lb_listener" "main" {
-#  load_balancer_arn = aws_lb.main.arn
-#  port              = "443"
-#  protocol          = "HTTPS"
-#  ssl_policy        = "ELBSecurityPolicy-2016-08"
-#  certificate_arn   = "arn:aws:acm:us-east-1:968585591903:certificate/5532a382-c482-4c66-9f6a-d6a7c5395b38"
-#
-#  default_action {
-#    type = "fixed-response"
-#
-#    fixed_response {
-#      content_type = "text/plain"
-#      message_body = "Default error"
-#      status_code  = "500"
-#    }
-#  }
-#}
+resource "aws_lb_listener" "main" {
+  load_balancer_arn = aws_lb.main.arn
+  port              = "443"
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = "arn:aws:acm:us-east-1:968585591903:certificate/5532a382-c482-4c66-9f6a-d6a7c5395b38"
+
+  default_action {
+    type = "fixed-response"
+
+    fixed_response {
+      content_type = "text/plain"
+      message_body = "Default error"
+      status_code  = "500"
+    }
+  }
+}
 
 #######  4  ########
 # We are creating 2 load balancers one for the private and public here we are using count to check if it is public  it will use the cde related to public and if it is private it will use the private load balancer. Note : We have mentioned count to overcome the resource. We cannot have the same resource in a module
